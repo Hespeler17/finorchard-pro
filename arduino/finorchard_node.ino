@@ -51,8 +51,8 @@
 #define TB_MM_PER_TIP     0.2       // mm per puls (kolla på sensorn!)
 
 // TTN credentials - fyll i dina egna
-String appEui = "0000000000000000";
-String appKey = "2D80A14858997AF2B79DFC86AAE94A65";
+const char* appEui = "0000000000000000";
+const char* appKey = "00000000000000000000000000000000";
 
 // =============================================
 // GLOBALA VARIABLER
@@ -223,7 +223,7 @@ void sendPayload(SensorData &d) {
   payload[15] = rh;
 
   modem.beginPacket();
-  for(int i=0; i<16; i++) modem.write(payload[i]);
+  modem.write(payload, 16);
   int err = modem.endPacket(true);  // true = confirmed uplink
 
   if (err > 0) {
@@ -254,7 +254,7 @@ void printData(SensorData &d) {
 // SETUP
 // =============================================
 void setup() {
-  Serial.begin(9600); while(!Serial && millis() < 10000){};
+  Serial.begin(9600);
   delay(2000);
   Serial.println("FinOrchard Pro - Startar...");
 
